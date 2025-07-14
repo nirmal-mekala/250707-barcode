@@ -1,0 +1,55 @@
+export function TabSection({mode, setMode}) {
+  const tabs = [
+    { id: 'input', label: 'Input Secret' },
+    { id: 'generator', label: 'Generate Secrets' },
+  ];
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === 'ArrowRight') {
+      setMode(tabs[(index + 1) % tabs.length].id);
+    } else if (e.key === 'ArrowLeft') {
+      setMode(tabs[(index - 1 + tabs.length) % tabs.length].id);
+    }
+  };
+
+  return (
+    <div style={{ width: '100%', marginBottom: '1rem' }} className="no-print">
+      <div
+        role="tablist"
+        aria-label="Mode Tabs"
+        style={{
+          display: 'flex',
+          width: '100%',
+        }}
+      >
+        {tabs.map((tab, index) => {
+          const isSelected = mode === tab.id;
+          return (
+            <button
+              key={tab.id}
+              role="tab"
+              aria-selected={isSelected}
+              aria-controls={`panel-${tab.id}`}
+              id={`tab-${tab.id}`}
+              tabIndex={isSelected ? 0 : -1}
+              onClick={() => setMode(tab.id)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              style={{
+                flex: 1,
+                padding: '1em',
+                cursor: 'pointer',
+                color: isSelected ? 'var(--text-header)' : 'var(--text-primary)',
+                backgroundColor: 'var(--background)',
+                border: 'none',
+                borderBottom: isSelected ? '4px solid var(--text-header)' : '4px solid transparent',
+                outline: 'none',
+                fontWeight: isSelected ? 'bold' : 'normal',
+              }}
+            >
+              {tab.label}
+            </button>
+          );
+        })} </div>
+    </div>
+  );
+}
