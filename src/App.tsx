@@ -6,7 +6,6 @@ import { GenerateBarcodes } from './components/GenerateBarcodes';
 import { InputBarcodes } from './components/InputBarcodes';
 import { Copy } from './components/Copy';
 
-// TODO move components to their own files
 // TODO flesh out README and either make a call to use it as Copy or explore vite raw plugin
 // TODO prettier is being weird… resolve
 
