@@ -17,4 +17,3 @@ export function Radios({ name, options, selectedValue, onChange }) {
     </div>
   );
 }
-

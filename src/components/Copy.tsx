@@ -1,4 +1,3 @@
-
 export function Copy() {
   // might be able to import the README as text and run remark?
   return (
@@ -14,7 +13,7 @@ export function Copy() {
       <h2 className="no-print">wtf</h2>
       <p className="no-print">
         Writing down the password to a password manager and storing it in a
-        secure location is common advice. This takes that advice in a{' '}
+        secure location is common advice. This takes that advice in a{" "}
         <em>weird</em> 👽 and <strong>wonderful</strong> 🪄 direction by
         generating a page (with the intent of being printed out and stored
         securely) of barcodes that “encode” secrets (the encoding is not a true
@@ -33,5 +32,5 @@ export function Copy() {
         is yours!
       </p>
     </>
-  )
+  );
 }

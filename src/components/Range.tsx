@@ -1,4 +1,3 @@
-
 export function Range({ min, max, value, onChange, label }) {
   return (
     <label>
@@ -8,10 +7,9 @@ export function Range({ min, max, value, onChange, label }) {
         min={min}
         max={max}
         value={value}
-        style={{ marginLeft: '10px' }}
+        style={{ marginLeft: "10px" }}
         onChange={(e) => onChange(parseInt(e.target.value))}
       />
     </label>
-
   );
 }
