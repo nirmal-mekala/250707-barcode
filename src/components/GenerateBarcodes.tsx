@@ -1,11 +1,16 @@
+import { useState } from 'react';
+import { Checkbox } from './Checkbox';
+import { Range } from './Range';
+import { Radios } from './Radios';
+import { Barcode } from './Barcode';
 
-
-export function GenerateBarcodes() {
+// TODO form element
+// TODO uniqId
+function Passwords({ barcodes, setBarcodes }) {
   const [capitalAlpha, setCapitalAlpha] = useState(true);
   const [lowercaseAlpha, setLowercaseAlpha] = useState(true);
   const [numbers, setNumbers] = useState(true);
   const [specialCharacters, setSpecialCharacters] = useState(true);
-  const [numberOfBarcodes, setNumberOfBarcodes] = useState(1);
   const [numberOfCharacters, setNumberOfCharacters] = useState(15);
 
   return (
@@ -15,11 +20,40 @@ export function GenerateBarcodes() {
       <Checkbox label="Numbers" checked={numbers} onChange={setNumbers} />
       <Checkbox label="!@#$%^&*" checked={specialCharacters} onChange={setSpecialCharacters} />
       <div>
-      <Range label="Number of barcodes" min={1} max={20} value={numberOfBarcodes} onChange={setNumberOfBarcodes} />
-</div>
+        <Range label="Number of characters" min={5} max={128} value={numberOfCharacters} onChange={setNumberOfCharacters} />
+      </div>
+    </div>
+  )
+}
+
+
+
+export function GenerateBarcodes({showSecrets}) {
+  // TODO numberOfBarcodes should determine barcodes.length
+  const [numberOfBarcodes, setNumberOfBarcodes] = useState(1);
+  const [secretMode, setSecretMode] = useState('password');
+  const [barcodes, setBarcodes] = useState(['wowee']);
+
+  const secretModeOptions = [
+    { label: "Password", value: "password" },
+    { label: "Passphrase", value: "passphrase" },
+  ];
+
+  // TODO store state locally to PasswordParams and just render barcodes within each… in stead of prop drilling
+  // --> passwords and passphrases are going to have v different logic
+  // --> move to just "Passwords" and "Passphrases" instaed of …Params
+  return (
+    <div>
       <div>
-      <Range label="Number of characters" min={5} max={128} value={numberOfCharacters} onChange={setNumberOfCharacters} />
-</div>
+        <Radios name="secretMode" options={secretModeOptions} selectedValue={secretMode} onChange={setSecretMode}/>
+      </div>
+      <div>
+        <Range label="Number of barcodes" min={1} max={20} value={numberOfBarcodes} onChange={setNumberOfBarcodes} />
+      </div>
+      {(secretMode === 'passphrase') ? <div></div> : <Passwords numberOfBarcodes={numberOfBarcodes}/>}
+      {barcodes.map((val, index) => {
+        return <Barcode key={index} value={val} showSecrets={showSecrets}/>
+      })}
     </div>
   );
 }

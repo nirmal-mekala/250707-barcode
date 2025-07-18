@@ -20,7 +20,7 @@ function App() {
         <Checkbox label="Show secrets" checked={showSecrets} onChange={setShowSecrets} />
         { mode === 'input' ? 
           <InputBarcodes showSecrets={showSecrets}/> :
-          <GenerateBarcodes />
+          <GenerateBarcodes showSecrets={showSecrets}/>
         }
       </div>
     </>

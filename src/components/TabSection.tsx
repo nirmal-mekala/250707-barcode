@@ -38,10 +38,10 @@ export function TabSection({mode, setMode}) {
                 flex: 1,
                 padding: '1em',
                 cursor: 'pointer',
-                color: isSelected ? 'var(--text-header)' : 'var(--text-primary)',
-                backgroundColor: 'var(--background)',
+                color: isSelected ? 'var(--fg-color-2)' : 'var(--fg-color-1)',
+                backgroundColor: 'var(--bg-color-2)',
                 border: 'none',
-                borderBottom: isSelected ? '4px solid var(--text-header)' : '4px solid transparent',
+                borderBottom: isSelected ? '4px solid var(--fg-color-2)' : '4px solid transparent',
                 outline: 'none',
                 fontWeight: isSelected ? 'bold' : 'normal',
               }}

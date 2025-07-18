@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Barcode } from './Barcode';
 
 export function InputBarcodes({showSecrets}) {
   const [value, setValue] = useState('');
@@ -36,8 +37,7 @@ export function InputBarcodes({showSecrets}) {
         </label>
         {value ? (
           <div style={{ marginTop: '1rem' }}>
-            {showSecrets && <span>{value}</span> }
-            <BarCode value={value} />
+            <Barcode value={value} showSecrets={showSecrets}/>
           </div>
         ) : <div><em>please enter a secret</em></div>
         }
