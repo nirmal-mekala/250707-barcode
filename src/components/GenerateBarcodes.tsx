@@ -46,22 +46,25 @@ function PassphraseOptions({
       words = words.map((word) => word[0].toUpperCase() + word.slice(1));
     }
 
+    const addNumberConditionally = (words: string[]): string[] => {
+      if (!includeNumber) return words;
+      const arrayCopy = [...words];
+      const stringIndex =
+        window.crypto.getRandomValues(new Uint32Array(1))[0] % arrayCopy.length;
+      const randomDigit =
+        window.crypto.getRandomValues(new Uint8Array(1))[0] % 10;
+      arrayCopy[stringIndex] += randomDigit.toString();
+      return arrayCopy;
+    };
+
     // TODO validate
     // TODO - not quite right - # of words is setting chars. n
     // not referencing word list… .
     // capitalizing EVERYTHIGN.
     // not putting in number appropriately
-    let chars = "abcdefghijklmnopqrstuvwxyz";
-    if (capitalize) {
-      chars = chars.toUpperCase();
-    }
-    if (includeNumber) {
-      chars += "0123456789";
-    }
-    let passphrase = "";
-    for (let i = 0; i < numberOfWords; i++) {
-      passphrase += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
+
+    const passphrase = addNumberConditionally(words).join("-");
+    console.log(passphrase);
     return passphrase;
   };
 
