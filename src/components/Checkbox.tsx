@@ -1,13 +1,10 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export function Checkbox({
   label,
   checked,
   onChange,
-  foo,
-  bar,
-  baz,
-  qux,
-  quux,
-}) {
+}: {label: string, checked: boolean, onChange: Dispatch<SetStateAction<boolean>>}) {
   return (
     <label
       style={{

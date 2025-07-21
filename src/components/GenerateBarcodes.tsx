@@ -1,47 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type SetStateAction, type Dispatch } from "react";
 import { Checkbox } from "./Checkbox";
 import { Range } from "./Range";
 import { Radios } from "./Radios";
 import { Barcode } from "./Barcode";
-import wordlist from "../data/eff_large_wordlist.json"
+import { v4 as uuidv4 } from "uuid";
+import wordlist from "../data/eff_large_wordlist.json";
 
-function PassphraseOptions({ numberOfBarcodes, setBarcodes }) {
+function PassphraseOptions({
+  numberOfBarcodes,
+  setBarcodes,
+}: {
+  numberOfBarcodes: number;
+  setBarcodes: Dispatch<SetStateAction<string[]>>;
+}) {
   const [capitalize, setCapitalize] = useState(true);
   const [includeNumber, setIncludeNumber] = useState(true);
   const [numberOfWords, setNumberOfWords] = useState(3);
 
   const rollDice = () => {
     return Math.floor(Math.random() * 6) + 1;
-  }
+  };
 
-  const getWord = () => {
+  const getWord: () => string | undefined = () => {
     // TODO secure dice roll using window.crypto
     // for now - insecure dice roll using math.random
-    let id = ''
+    let id = "";
     for (let i = 0; i < 5; i++) {
-      id += rollDice().toString()
+      id += rollDice().toString();
     }
-    const wordObj = wordlist.find((word) => word.id === Number(id))
-    return wordObj?.word
-  }
+    const wordObj = wordlist.find((word) => word.id === Number(id));
+    return wordObj?.word;
+  };
 
-  const generatePassphrase = (capitalize: boolean, includeNumber: boolean, numberOfWords: number) => {
-    let words: string[] = []
+  const generatePassphrase = (
+    capitalize: boolean,
+    includeNumber: boolean,
+    numberOfWords: number,
+  ) => {
+    let words: string[] = [];
     for (let i = 0; i < numberOfWords; i++) {
-      words.push(getWord())
+      words.push(getWord() || "");
     }
-    // TODO typescript woudl help a lot here
 
     if (capitalize) {
-      words = words.map((word) => word[0].toUpperCase() + word.slice(1))
+      words = words.map((word) => word[0].toUpperCase() + word.slice(1));
     }
-
-
 
     // TODO validate
     // TODO - not quite right - # of words is setting chars. n
-    // not referencing word list… . 
-    // capitalizing EVERYTHIGN. 
+    // not referencing word list… .
+    // capitalizing EVERYTHIGN.
     // not putting in number appropriately
     let chars = "abcdefghijklmnopqrstuvwxyz";
     if (capitalize) {
@@ -54,16 +62,18 @@ function PassphraseOptions({ numberOfBarcodes, setBarcodes }) {
     for (let i = 0; i < numberOfWords; i++) {
       passphrase += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return passphrase
-  }
+    return passphrase;
+  };
 
   useEffect(() => {
-    let newBarcodes: string[] = []
+    let newBarcodes: string[] = [];
     for (let i = 0; i < numberOfBarcodes; i++) {
-      newBarcodes.push(generatePassphrase(capitalize, includeNumber, numberOfWords))
+      newBarcodes.push(
+        generatePassphrase(capitalize, includeNumber, numberOfWords),
+      );
     }
-    setBarcodes(newBarcodes)
-  }, [numberOfBarcodes, capitalize, includeNumber, numberOfWords])
+    setBarcodes(newBarcodes);
+  }, [numberOfBarcodes, capitalize, includeNumber, numberOfWords]);
 
   return (
     <div>
@@ -92,15 +102,27 @@ function PassphraseOptions({ numberOfBarcodes, setBarcodes }) {
 
 // TODO form element
 // TODO uniqId
-function PasswordOptions({ numberOfBarcodes, setBarcodes }) {
+function PasswordOptions({
+  numberOfBarcodes,
+  setBarcodes,
+}: {
+  numberOfBarcodes: number;
+  setBarcodes: Dispatch<SetStateAction<string[]>>;
+}) {
   const [capitalAlpha, setCapitalAlpha] = useState(true);
   const [lowercaseAlpha, setLowercaseAlpha] = useState(true);
   const [numbers, setNumbers] = useState(true);
   const [specialCharacters, setSpecialCharacters] = useState(true);
   const [numberOfCharacters, setNumberOfCharacters] = useState(15);
 
-  const generatePassword = (capitalAlpha: boolean, lowercaseAlpha: boolean, numbers: boolean, specialCharacters: boolean, numberOfCharacters: number) => {
-    let chars = ""
+  const generatePassword = (
+    capitalAlpha: boolean,
+    lowercaseAlpha: boolean,
+    numbers: boolean,
+    specialCharacters: boolean,
+    numberOfCharacters: number,
+  ) => {
+    let chars = "";
     if (lowercaseAlpha) {
       chars += "abcdefghijklmnopqrstuvwxyz";
     }
@@ -119,16 +141,31 @@ function PasswordOptions({ numberOfBarcodes, setBarcodes }) {
       // TODO better random
       password += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    return password
-  }
+    return password;
+  };
 
   useEffect(() => {
-    let newBarcodes: string[] = []
+    let newBarcodes: string[] = [];
     for (let i = 0; i < numberOfBarcodes; i++) {
-      newBarcodes.push(generatePassword(capitalAlpha, lowercaseAlpha, numbers, specialCharacters, numberOfCharacters))
+      newBarcodes.push(
+        generatePassword(
+          capitalAlpha,
+          lowercaseAlpha,
+          numbers,
+          specialCharacters,
+          numberOfCharacters,
+        ),
+      );
     }
-    setBarcodes(newBarcodes)
-  }, [numberOfBarcodes, capitalAlpha, lowercaseAlpha, numbers, specialCharacters, numberOfCharacters])
+    setBarcodes(newBarcodes);
+  }, [
+    numberOfBarcodes,
+    capitalAlpha,
+    lowercaseAlpha,
+    numbers,
+    specialCharacters,
+    numberOfCharacters,
+  ]);
 
   return (
     <div>
@@ -157,12 +194,10 @@ function PasswordOptions({ numberOfBarcodes, setBarcodes }) {
   );
 }
 
-export function GenerateBarcodes({ showSecrets }) {
-  // TODO numberOfBarcodes should determine barcodes.length
+export function GenerateBarcodes({ showSecrets }: { showSecrets: boolean }) {
   const [numberOfBarcodes, setNumberOfBarcodes] = useState(1);
   const [secretMode, setSecretMode] = useState("password");
   const [barcodes, setBarcodes] = useState(["wowee"]);
-
   const secretModeOptions = [
     { label: "Password", value: "password" },
     { label: "Passphrase", value: "passphrase" },
@@ -171,8 +206,8 @@ export function GenerateBarcodes({ showSecrets }) {
   return (
     <div>
       <h3>secret gen options</h3>
-      <div style={{ display: 'flex' }}>
-        <div style={{ width: '50%' }}>
+      <div style={{ display: "flex" }}>
+        <div style={{ width: "50%" }}>
           <Radios
             name="secretMode"
             options={secretModeOptions}
@@ -187,7 +222,8 @@ export function GenerateBarcodes({ showSecrets }) {
             onChange={setNumberOfBarcodes}
           />
         </div>
-        <div style={{ width: '50%' }}>
+        {/* TODO consider mobile…? */}
+        <div style={{ width: "50%" }}>
           {secretMode === "passphrase" ? (
             <PassphraseOptions
               numberOfBarcodes={numberOfBarcodes}
@@ -202,9 +238,16 @@ export function GenerateBarcodes({ showSecrets }) {
         </div>
       </div>
 
-
-      {barcodes.map((val, index) => {
-        return <Barcode key={index} value={val} showSecrets={showSecrets} />;
+      {barcodes.map((val) => {
+        const uuid = uuidv4();
+        return (
+          <Barcode
+            key={uuid}
+            uuid={uuid}
+            value={val}
+            showSecrets={showSecrets}
+          />
+        );
       })}
     </div>
   );

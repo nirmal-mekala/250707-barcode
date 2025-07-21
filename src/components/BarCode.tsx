@@ -1,17 +1,22 @@
+import JsBarcode from "jsbarcode";
 import { useEffect } from "react";
 
 export function Barcode({
+  uuid,
   value,
   showSecrets,
 }: {
+  uuid: string;
   value: string;
   showSecrets: boolean;
 }) {
   useEffect(() => {
-    JsBarcode("#barcode", value, { displayValue: showSecrets, width: 1, height: 50 });
+    JsBarcode(`#barcode-${uuid}`, value, {
+      displayValue: showSecrets,
+      width: 1,
+      height: 50,
+    });
   }, [value, showSecrets]);
-
-  // TODO need multiple IDS duh!
 
   const handleCopy = () => {
     navigator.clipboard
@@ -31,7 +36,7 @@ export function Barcode({
         }}
       >
         <div>
-          <svg id="barcode" />
+          <svg id={"barcode-" + uuid} />
         </div>
         <div className="no-print">
           <button onClick={handleCopy} style={{ marginLeft: "8px" }}>

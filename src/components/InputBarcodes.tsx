@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Barcode } from "./Barcode";
+import { v4 as uuidv4 } from "uuid";
 
-export function InputBarcodes({ showSecrets }) {
+export function InputBarcodes({ showSecrets }: { showSecrets: boolean }) {
   const [value, setValue] = useState("");
   return (
     <>
@@ -37,7 +38,7 @@ export function InputBarcodes({ showSecrets }) {
       </label>
       {value ? (
         <div style={{ marginTop: "1rem" }}>
-          <Barcode value={value} showSecrets={showSecrets} />
+          <Barcode uuid={uuidv4()} value={value} showSecrets={showSecrets} />
         </div>
       ) : (
         <div>

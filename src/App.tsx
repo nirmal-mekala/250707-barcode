@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import JsBarcode from "jsbarcode";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { TabSection } from "./components/TabSection";
 import { Checkbox } from "./components/Checkbox";
 import { GenerateBarcodes } from "./components/GenerateBarcodes";
@@ -9,7 +8,10 @@ import { Copy } from "./components/Copy";
 // TODO flesh out README and either make a call to use it as Copy or explore vite raw plugin
 
 function App() {
-  const [mode, setMode] = useState("input");
+  const [mode, setMode]: [
+    "input" | "generator",
+    Dispatch<SetStateAction<"input" | "generator">>,
+  ] = useState<"input" | "generator">("input");
   const [showSecrets, setShowSecrets] = useState(false);
   return (
     <>

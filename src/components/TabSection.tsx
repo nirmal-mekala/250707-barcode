@@ -1,10 +1,21 @@
-export function TabSection({ mode, setMode }) {
-  const tabs = [
+import type { Dispatch, KeyboardEvent, SetStateAction } from "react";
+
+export function TabSection({
+  mode,
+  setMode,
+}: {
+  mode: "input" | "generator";
+  setMode: Dispatch<SetStateAction<"input" | "generator">>;
+}) {
+  const tabs: { id: "input" | "generator"; label: string }[] = [
     { id: "input", label: "Input Secret" },
     { id: "generator", label: "Generate Secrets" },
   ];
 
-  const handleKeyDown = (e, index) => {
+  const handleKeyDown = (
+    e: KeyboardEvent<HTMLButtonElement>,
+    index: number,
+  ) => {
     if (e.key === "ArrowRight") {
       setMode(tabs[(index + 1) % tabs.length].id);
     } else if (e.key === "ArrowLeft") {

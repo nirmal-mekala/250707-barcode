@@ -1,4 +1,16 @@
-export function Radios({ name, options, selectedValue, onChange }) {
+import type { Dispatch, SetStateAction } from "react";
+
+export function Radios({
+  name,
+  options,
+  selectedValue,
+  onChange,
+}: {
+  name: string;
+  options: { label: string; value: string }[];
+  selectedValue: string;
+  onChange: Dispatch<SetStateAction<string>>;
+}) {
   return (
     <div role="radiogroup" aria-labelledby={name}>
       {options.map((option) => (

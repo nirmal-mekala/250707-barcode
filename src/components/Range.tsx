@@ -1,4 +1,18 @@
-export function Range({ min, max, value, onChange, label }) {
+import type { Dispatch, SetStateAction } from "react";
+
+export function Range({
+  min,
+  max,
+  value,
+  onChange,
+  label,
+}: {
+  min: number;
+  max: number;
+  value: number;
+  onChange: Dispatch<SetStateAction<number>>;
+  label: string;
+}) {
   return (
     <div>
       <label>
