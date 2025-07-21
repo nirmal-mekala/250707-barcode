@@ -18,12 +18,10 @@ function PassphraseOptions({
   const [numberOfWords, setNumberOfWords] = useState(3);
 
   const rollDice = () => {
-    return Math.floor(Math.random() * 6) + 1;
+    return (window.crypto.getRandomValues(new Uint32Array(1))[0] % 6) + 1;
   };
 
   const getWord: () => string | undefined = () => {
-    // TODO secure dice roll using window.crypto
-    // for now - insecure dice roll using math.random
     let id = "";
     for (let i = 0; i < 5; i++) {
       id += rollDice().toString();
@@ -41,11 +39,9 @@ function PassphraseOptions({
     for (let i = 0; i < numberOfWords; i++) {
       words.push(getWord() || "");
     }
-
     if (capitalize) {
       words = words.map((word) => word[0].toUpperCase() + word.slice(1));
     }
-
     const addNumberConditionally = (words: string[]): string[] => {
       if (!includeNumber) return words;
       const arrayCopy = [...words];
@@ -56,15 +52,7 @@ function PassphraseOptions({
       arrayCopy[stringIndex] += randomDigit.toString();
       return arrayCopy;
     };
-
-    // TODO validate
-    // TODO - not quite right - # of words is setting chars. n
-    // not referencing word list… .
-    // capitalizing EVERYTHIGN.
-    // not putting in number appropriately
-
     const passphrase = addNumberConditionally(words).join("-");
-    console.log(passphrase);
     return passphrase;
   };
 
@@ -104,7 +92,6 @@ function PassphraseOptions({
 }
 
 // TODO form element
-// TODO uniqId
 function PasswordOptions({
   numberOfBarcodes,
   setBarcodes,
@@ -136,13 +123,13 @@ function PasswordOptions({
       chars += "0123456789";
     }
     if (specialCharacters) {
-      // TODO validate special chars
       chars += "!@#$%^&*";
     }
     let password = "";
     for (let i = 0; i < numberOfCharacters; i++) {
-      // TODO better random
-      password += chars.charAt(Math.floor(Math.random() * chars.length));
+      const randomIndex: number =
+        window.crypto.getRandomValues(new Uint8Array(1))[0] % chars.length;
+      password += chars.charAt(randomIndex);
     }
     return password;
   };
