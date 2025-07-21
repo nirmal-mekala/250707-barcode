@@ -8,8 +8,10 @@ export function Barcode({
   showSecrets: boolean;
 }) {
   useEffect(() => {
-    JsBarcode("#barcode", value, { displayValue: false, width: 1, height: 50 });
-  }, [value]);
+    JsBarcode("#barcode", value, { displayValue: showSecrets, width: 1, height: 50 });
+  }, [value, showSecrets]);
+
+  // TODO need multiple IDS duh!
 
   const handleCopy = () => {
     navigator.clipboard
@@ -20,7 +22,6 @@ export function Barcode({
 
   return (
     <>
-      {showSecrets && <span>{value}</span>}
       <div
         style={{
           marginBottom: "8px",
@@ -32,7 +33,7 @@ export function Barcode({
         <div>
           <svg id="barcode" />
         </div>
-        <div class="no-print">
+        <div className="no-print">
           <button onClick={handleCopy} style={{ marginLeft: "8px" }}>
             Copy
           </button>

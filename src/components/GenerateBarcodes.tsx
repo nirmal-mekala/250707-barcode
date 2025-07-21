@@ -1,13 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "./Checkbox";
 import { Range } from "./Range";
 import { Radios } from "./Radios";
 import { Barcode } from "./Barcode";
+import wordlist from "../data/eff_large_wordlist.json"
 
-function Passphrases({ setBarcodes }) {
+function PassphraseOptions({ numberOfBarcodes, setBarcodes }) {
   const [capitalize, setCapitalize] = useState(true);
   const [includeNumber, setIncludeNumber] = useState(true);
   const [numberOfWords, setNumberOfWords] = useState(3);
+
+  const rollDice = () => {
+    return Math.floor(Math.random() * 6) + 1;
+  }
+
+  const getWord = () => {
+    // TODO secure dice roll using window.crypto
+    // for now - insecure dice roll using math.random
+    let id = ''
+    for (let i = 0; i < 5; i++) {
+      id += rollDice().toString()
+    }
+    const wordObj = wordlist.find((word) => word.id === Number(id))
+    return wordObj?.word
+  }
+
+  const generatePassphrase = (capitalize: boolean, includeNumber: boolean, numberOfWords: number) => {
+    let words: string[] = []
+    for (let i = 0; i < numberOfWords; i++) {
+      words.push(getWord())
+    }
+    // TODO typescript woudl help a lot here
+
+    if (capitalize) {
+      words = words.map((word) => word[0].toUpperCase() + word.slice(1))
+    }
+
+
+
+    // TODO validate
+    // TODO - not quite right - # of words is setting chars. n
+    // not referencing word list… . 
+    // capitalizing EVERYTHIGN. 
+    // not putting in number appropriately
+    let chars = "abcdefghijklmnopqrstuvwxyz";
+    if (capitalize) {
+      chars = chars.toUpperCase();
+    }
+    if (includeNumber) {
+      chars += "0123456789";
+    }
+    let passphrase = "";
+    for (let i = 0; i < numberOfWords; i++) {
+      passphrase += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return passphrase
+  }
+
+  useEffect(() => {
+    let newBarcodes: string[] = []
+    for (let i = 0; i < numberOfBarcodes; i++) {
+      newBarcodes.push(generatePassphrase(capitalize, includeNumber, numberOfWords))
+    }
+    setBarcodes(newBarcodes)
+  }, [numberOfBarcodes, capitalize, includeNumber, numberOfWords])
 
   return (
     <div>
@@ -23,26 +79,56 @@ function Passphrases({ setBarcodes }) {
       />
       <div>
         <Range
-          label="Number of words"
+          label="# of words"
           min={3}
           max={20}
           value={numberOfWords}
           onChange={setNumberOfWords}
         />
       </div>
-      <p>Passphrases</p>
     </div>
   );
 }
 
 // TODO form element
 // TODO uniqId
-function Passwords({ barcodes, setBarcodes }) {
+function PasswordOptions({ numberOfBarcodes, setBarcodes }) {
   const [capitalAlpha, setCapitalAlpha] = useState(true);
   const [lowercaseAlpha, setLowercaseAlpha] = useState(true);
   const [numbers, setNumbers] = useState(true);
   const [specialCharacters, setSpecialCharacters] = useState(true);
   const [numberOfCharacters, setNumberOfCharacters] = useState(15);
+
+  const generatePassword = (capitalAlpha: boolean, lowercaseAlpha: boolean, numbers: boolean, specialCharacters: boolean, numberOfCharacters: number) => {
+    let chars = ""
+    if (lowercaseAlpha) {
+      chars += "abcdefghijklmnopqrstuvwxyz";
+    }
+    if (capitalAlpha) {
+      chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    }
+    if (numbers) {
+      chars += "0123456789";
+    }
+    if (specialCharacters) {
+      // TODO validate special chars
+      chars += "!@#$%^&*";
+    }
+    let password = "";
+    for (let i = 0; i < numberOfCharacters; i++) {
+      // TODO better random
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password
+  }
+
+  useEffect(() => {
+    let newBarcodes: string[] = []
+    for (let i = 0; i < numberOfBarcodes; i++) {
+      newBarcodes.push(generatePassword(capitalAlpha, lowercaseAlpha, numbers, specialCharacters, numberOfCharacters))
+    }
+    setBarcodes(newBarcodes)
+  }, [numberOfBarcodes, capitalAlpha, lowercaseAlpha, numbers, specialCharacters, numberOfCharacters])
 
   return (
     <div>
@@ -82,39 +168,41 @@ export function GenerateBarcodes({ showSecrets }) {
     { label: "Passphrase", value: "passphrase" },
   ];
 
-  // TODO store state locally to PasswordParams and just render barcodes within each… in stead of prop drilling
-  // --> passwords and passphrases are going to have v different logic
-  // --> move to just "Passwords" and "Passphrases" instaed of …Params
   return (
     <div>
-      <div>
-        <Radios
-          name="secretMode"
-          options={secretModeOptions}
-          selectedValue={secretMode}
-          onChange={setSecretMode}
-        />
+      <h3>secret gen options</h3>
+      <div style={{ display: 'flex' }}>
+        <div style={{ width: '50%' }}>
+          <Radios
+            name="secretMode"
+            options={secretModeOptions}
+            selectedValue={secretMode}
+            onChange={setSecretMode}
+          />
+          <Range
+            label="# of barcodes"
+            min={1}
+            max={20}
+            value={numberOfBarcodes}
+            onChange={setNumberOfBarcodes}
+          />
+        </div>
+        <div style={{ width: '50%' }}>
+          {secretMode === "passphrase" ? (
+            <PassphraseOptions
+              numberOfBarcodes={numberOfBarcodes}
+              setBarcodes={setBarcodes}
+            />
+          ) : (
+            <PasswordOptions
+              numberOfBarcodes={numberOfBarcodes}
+              setBarcodes={setBarcodes}
+            />
+          )}
+        </div>
       </div>
-      <div>
-        <Range
-          label="Number of barcodes"
-          min={1}
-          max={20}
-          value={numberOfBarcodes}
-          onChange={setNumberOfBarcodes}
-        />
-      </div>
-      {secretMode === "passphrase" ? (
-        <Passphrases
-          numberOfBarcodes={numberOfBarcodes}
-          setBarcodes={setBarcodes}
-        />
-      ) : (
-        <Passwords
-          numberOfBarcodes={numberOfBarcodes}
-          setBarcodes={setBarcodes}
-        />
-      )}
+
+
       {barcodes.map((val, index) => {
         return <Barcode key={index} value={val} showSecrets={showSecrets} />;
       })}

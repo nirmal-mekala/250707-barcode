@@ -7,7 +7,6 @@ import { InputBarcodes } from "./components/InputBarcodes";
 import { Copy } from "./components/Copy";
 
 // TODO flesh out README and either make a call to use it as Copy or explore vite raw plugin
-// TODO prettier is being weird… resolve
 
 function App() {
   const [mode, setMode] = useState("input");
