@@ -4,7 +4,11 @@ export function Checkbox({
   label,
   checked,
   onChange,
-}: {label: string, checked: boolean, onChange: Dispatch<SetStateAction<boolean>>}) {
+}: {
+  label: string;
+  checked: boolean;
+  onChange: Dispatch<SetStateAction<boolean>>;
+}) {
   return (
     <label
       style={{
