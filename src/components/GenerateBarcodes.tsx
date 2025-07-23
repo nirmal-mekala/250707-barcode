@@ -15,7 +15,7 @@ function PassphraseOptions({
 }) {
   const [capitalize, setCapitalize] = useState(true);
   const [includeNumber, setIncludeNumber] = useState(true);
-  const [numberOfWords, setNumberOfWords] = useState(3);
+  const [numberOfWords, setNumberOfWords] = useState(5);
 
   const rollDice = () => {
     return (window.crypto.getRandomValues(new Uint32Array(1))[0] % 6) + 1;
@@ -102,7 +102,7 @@ function PasswordOptions({
   const [lowercaseAlpha, setLowercaseAlpha] = useState(true);
   const [numbers, setNumbers] = useState(true);
   const [specialCharacters, setSpecialCharacters] = useState(true);
-  const [numberOfCharacters, setNumberOfCharacters] = useState(15);
+  const [numberOfCharacters, setNumberOfCharacters] = useState(12);
 
   const generatePassword = (
     capitalAlpha: boolean,
@@ -173,7 +173,7 @@ function PasswordOptions({
       <div>
         <Range
           label="Number of characters"
-          min={5}
+          min={12}
           max={128}
           value={numberOfCharacters}
           onChange={setNumberOfCharacters}
