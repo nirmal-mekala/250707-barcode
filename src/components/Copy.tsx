@@ -1,5 +1,4 @@
 export function Copy() {
-  // might be able to import the README as text and run remark?
   return (
     <>
       <h1 className="no-print">barcodez</h1>
@@ -10,8 +9,13 @@ export function Copy() {
         ⚠️ WARNING ⚠️ - USE AT YOUR OWN RISK AND ALWAYS STORE PASSWORDS IN A
         SECURE LOCATION
       </p>
-      <details className="no-print" style={{ padding: "0 var(--spacing-container-x)"}}>
-        <summary style={{ fontSize: "var(--text-xl)", color:"var(--fg-color-2)"}}>
+      <details
+        className="no-print"
+        style={{ padding: "0 var(--spacing-container-x)" }}
+      >
+        <summary
+          style={{ fontSize: "var(--text-xl)", color: "var(--fg-color-2)" }}
+        >
           wtf
         </summary>
         <p>
@@ -29,14 +33,19 @@ export function Copy() {
           older systems.
         </p>
       </details>
-      <details className="no-print" style={{ padding: "0 var(--spacing-container-x)"}}>
-        <summary style={{ fontSize: "var(--text-xl)", color:"var(--fg-color-2)"}}>
+      <details
+        className="no-print"
+        style={{ padding: "0 var(--spacing-container-x)" }}
+      >
+        <summary
+          style={{ fontSize: "var(--text-xl)", color: "var(--fg-color-2)" }}
+        >
           no way i’m entering my password
         </summary>
         <p>
           Good instinct! You can inspect the source and network tab to validate
-          that all secret logic takes place purely in the browser, but the choice
-          is yours!
+          that all secret logic takes place purely in the browser, but the
+          choice is yours!
         </p>
       </details>
     </>

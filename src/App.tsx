@@ -5,8 +5,6 @@ import { GenerateBarcodes } from "./components/GenerateBarcodes";
 import { InputBarcodes } from "./components/InputBarcodes";
 import { Copy } from "./components/Copy";
 
-// TODO flesh out README and either make a call to use it as Copy or explore vite raw plugin
-
 function App() {
   const [mode, setMode]: [
     "input" | "generator",
