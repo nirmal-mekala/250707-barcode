@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <Copy />
-      <div
+      <form
         style={{
           padding: "1rem var(--spacing-container-x)",
           background: "var(--background-alt)",
@@ -37,7 +37,7 @@ function App() {
         ) : (
           <GenerateBarcodes showSecrets={showSecrets} />
         )}
-      </div>
+      </form>
     </>
   );
 }

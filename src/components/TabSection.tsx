@@ -43,6 +43,7 @@ export function TabSection({
               aria-controls={`panel-${tab.id}`}
               id={`tab-${tab.id}`}
               tabIndex={isSelected ? 0 : -1}
+              type="button"
               onClick={() => setMode(tab.id)}
               onKeyDown={(e) => handleKeyDown(e, index)}
               style={{

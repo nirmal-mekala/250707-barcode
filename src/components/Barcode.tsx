@@ -41,6 +41,7 @@ export function Barcode({
         <div className="no-print">
           <button
             onClick={handleCopy}
+            type="button"
             style={{
               backgroundColor: "var(--bg-color-2)",
               border: "1px solid var(--fg-color-2)",

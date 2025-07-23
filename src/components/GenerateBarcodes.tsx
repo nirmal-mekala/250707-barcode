@@ -81,7 +81,7 @@ function PassphraseOptions({
       <div>
         <Range
           label="# of words"
-          min={3}
+          min={5}
           max={20}
           value={numberOfWords}
           onChange={setNumberOfWords}
@@ -91,7 +91,6 @@ function PassphraseOptions({
   );
 }
 
-// TODO form element
 function PasswordOptions({
   numberOfBarcodes,
   setBarcodes,
