@@ -195,9 +195,9 @@ export function GenerateBarcodes({ showSecrets }: { showSecrets: boolean }) {
 
   return (
     <div>
-      <h3>secret gen options</h3>
+      <h3 className="no-print">secret gen options</h3>
       <div style={{ display: "flex" }}>
-        <div style={{ width: "50%" }}>
+        <div className="no-print">
           <Radios
             name="secretMode"
             options={secretModeOptions}
@@ -211,9 +211,6 @@ export function GenerateBarcodes({ showSecrets }: { showSecrets: boolean }) {
             value={numberOfBarcodes}
             onChange={setNumberOfBarcodes}
           />
-        </div>
-        {/* TODO consider mobile…? */}
-        <div style={{ width: "50%" }}>
           {secretMode === "passphrase" ? (
             <PassphraseOptions
               numberOfBarcodes={numberOfBarcodes}

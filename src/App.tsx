@@ -25,11 +25,13 @@ function App() {
         }}
       >
         <TabSection mode={mode} setMode={setMode} />
-        <Checkbox
-          label="Show secrets"
-          checked={showSecrets}
-          onChange={setShowSecrets}
-        />
+        <div className="no-print">
+          <Checkbox
+            label="Show secrets"
+            checked={showSecrets}
+            onChange={setShowSecrets}
+          />
+        </div>
         {mode === "input" ? (
           <InputBarcodes showSecrets={showSecrets} />
         ) : (
